@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[A2BGeek's Blog]]></title>
-  <link href="http://a2bgeek.me/atom.xml" rel="self"/>
+  <title><![CDATA[Category: zatan | A2BGeek's Blog]]></title>
+  <link href="http://a2bgeek.me/blog/categories/zatan/atom.xml" rel="self"/>
   <link href="http://a2bgeek.me/"/>
   <updated>2014-03-07T15:21:12+08:00</updated>
   <id>http://a2bgeek.me/</id>

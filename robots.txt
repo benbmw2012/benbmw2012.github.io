@@ -1,4 +1,4 @@
 User-agent: *
 Disallow: 
 
-Sitemap: http://benbmw2012.github.io/sitemap.xml 
+Sitemap: http://a2bgeek.me/sitemap.xml 
