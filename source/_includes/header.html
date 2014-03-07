@@ -1,5 +1,5 @@
 <div class="profilepic">
-	{% if site.email_md5 %}
+	<!--{% if site.email_md5 %}
 	<img src="http://www.gravatar.com/avatar/{{ site.email_md5 }}?s=160" alt="Profile Picture" style="width: 160px;" />
 	{% else %}
 	<script src="{{ root_url }}/javascripts/md5.js"></script>
@@ -8,7 +8,8 @@
 			$('.profilepic').append("<img src='http://www.gravatar.com/avatar/" + MD5("{{ site.email | downcase }}") + "?s=160' alt='Profile Picture' style='width: 160px;' />");
 		});
 	</script>
-	{% endif %}
+	{% endif %}-->
+        <img src="http://a2bgeekblog.qiniudn.com/image/png/myblogicon.png" alt="Profile Picture" style="width: 160px"/>
 </div>
 {% include custom/header.html %}
 <nav id="main-nav">{% include navigation.html %}</nav>
@@ -16,6 +17,9 @@
 	<div class="social">
 		{% if site.email %}
 			<a class="email" href="mailto:{{ site.email }}" title="Email">Email</a>
+		{% endif %}
+		{% if site.weibo_user %}
+			<a class="weibo" href="http://weibo.com/{{ site.weibo_user }}"></a>
 		{% endif %}
 		{% if site.facebook_user %}
 			<a class="facebook" href="http://www.facebook.com/{{ site.facebook_user }}" title="Facebook">Facebook</a>
