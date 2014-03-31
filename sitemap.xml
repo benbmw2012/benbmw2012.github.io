@@ -1,16 +1,22 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
-        <loc>http://a2bgeek.me/blog/2014/03/07/</loc>
+        <loc>http://a2bgeek.me/blog/2014/03/07/xin-de-kai-shi.html/</loc>
         <lastmod>2014-03-07T17:20:36+08:00</lastmod>
     </url>
     <url>
-        <loc>http://a2bgeek.me/blog/2014/03/13/</loc>
-        <lastmod>2014-03-13T20:33:31+08:00</lastmod>
+        <loc>http://a2bgeek.me/blog/2014/03/13/xiao-xi-dui-lie-rabbitmqfen-xiang.html/</loc>
+        <lastmod>2014-03-31T20:27:49+08:00</lastmod>
     </url>
     <url>
-        <loc>http://a2bgeek.me/blog/2014/03/13/</loc>
-        <lastmod>2014-03-13T21:03:08+08:00</lastmod>
+        <loc>http://a2bgeek.me/blog/2014/03/13/guan-yu-da-dota.html/</loc>
+        <lastmod>2014-03-13T21:05:06+08:00</lastmod>
+    </url>
+    <url>
+        <loc>
+            http://a2bgeek.me/blog/2014/03/27/da-jian-nginx-plus-tornado-plus-supervisorhuan-jing.html/
+        </loc>
+        <lastmod>2014-03-31T20:27:45+08:00</lastmod>
     </url>
     <url>
         <loc>http://a2bgeek.me/about/</loc>
@@ -26,10 +32,10 @@
     </url>
     <url>
         <loc>http://a2bgeek.me/blog/archives/</loc>
-        <lastmod>2014-03-13T21:03:08+08:00</lastmod>
+        <lastmod>2014-03-31T20:27:49+08:00</lastmod>
     </url>
     <url>
         <loc>http://a2bgeek.me/</loc>
-        <lastmod>2014-03-13T21:03:08+08:00</lastmod>
+        <lastmod>2014-03-31T20:27:49+08:00</lastmod>
     </url>
 </urlset>

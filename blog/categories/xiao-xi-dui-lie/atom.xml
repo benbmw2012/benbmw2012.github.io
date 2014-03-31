@@ -4,7 +4,7 @@
   <title><![CDATA[Category: 消息队列 | A2BGeek's Blog]]></title>
   <link href="http://a2bgeek.me/blog/categories/xiao-xi-dui-lie/atom.xml" rel="self"/>
   <link href="http://a2bgeek.me/"/>
-  <updated>2014-03-13T21:03:29+08:00</updated>
+  <updated>2014-03-31T20:27:58+08:00</updated>
   <id>http://a2bgeek.me/</id>
   <author>
     <name><![CDATA[A2BGeek]]></name>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[消息队列RabbitMQ分享]]></title>
-    <link href="http://a2bgeek.me/blog/2014/03/13/"/>
+    <link href="http://a2bgeek.me/blog/2014/03/13/xiao-xi-dui-lie-rabbitmqfen-xiang.html/"/>
     <updated>2014-03-13T18:52:31+08:00</updated>
-    <id>http://a2bgeek.me/blog/2014/03/xiao-xi-dui-lie-rabbitmqfen-xiang</id>
+    <id>http://a2bgeek.me/blog/2014/03/13/xiao-xi-dui-lie-rabbitmqfen-xiang</id>
     <content type="html"><![CDATA[<p>最近为我维护的微信公众号添加功能，添加之后发现返回速度变慢了，导致在5秒内无法给用户返回消息。遇到这种情况该怎么办呢？答案是把耗时的操作开线程做异步处理，不过大神给了我指点，没错，就是使用消息队列。</p>
 
 <p>消息队列顾名思义是一个队列，先进先出，可以把需要异步处理的消息（常常表现为字符串）先存到里面慢慢处理。</p>
@@ -92,7 +92,9 @@ channel.basic_consume(callback,</p>
 
 <p>channel.start_consuming()
 ```
-我就是参考这段代码去优化我的异步处理的，好了，今天就到这里，欢迎拍砖。</p>
+我就是参考这段代码去优化我的异步处理的。</p>
+
+<blockquote><p>好了，今天就到这里，欢迎拍砖。</p></blockquote>
 ]]></content>
   </entry>
   

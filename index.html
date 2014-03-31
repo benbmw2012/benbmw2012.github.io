@@ -9,8 +9,7 @@
 	<meta name="author" content="A2BGeek">
 
 	
-	<meta name="description" content="Mar 13th, 2014 zatan Comments 关于打DOTA 有人说过这样一句话： 打好DOTA需要时间，即使花了时间也不一定玩得好，就算玩得好也没什么用。
-—— Cherish 的确是这样的，而且我还想补充，坐着玩的时间太长会损害人体健康。嗯嗯，偶尔玩玩，不要让DOTA霸占了生活 &hellip;">
+	<meta name="description" content="Mar 27th, 2014 python web, tech Comments 搭建nginx+tornado+supervisor+mongodb环境 最近做一个项目需要用到传说中的云计算，云计算是什么？打个比方，回到电气时代，以前是自家买爱迪生的直流发电机给自家发电，后来有了交流电， &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -20,7 +19,7 @@
 
 	<link href="/atom.xml" rel="alternate" title="A2BGeek's Blog" type="application/atom+xml">
 	
-	<link rel="canonical" href="http://a2bgeek.me/">
+	<link rel="canonical" href="http://a2bgeek.me/index.html">
 	<link href="/favicon2.png" rel="shortcut icon">
 	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
 	<link href="/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
@@ -134,6 +133,308 @@
   
 
 
+<time datetime="2014-03-27T09:52:34+08:00" data-updated="true" itemprop="datePublished">Mar 27<span>th</span>, 2014</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/python-web/'>python web</a>, <a class='category' href='/blog/categories/tech/'>tech</a>
+
+
+</div>
+		
+			<span class="comments"><a href="/blog/2014/03/27/da-jian-nginx-plus-tornado-plus-supervisorhuan-jing.html/#disqus_thread">Comments</a></span>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2014/03/27/da-jian-nginx-plus-tornado-plus-supervisorhuan-jing.html/" itemprop="url">搭建nginx+tornado+supervisor+mongodb环境</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>最近做一个项目需要用到传说中的<code>云计算</code>，云计算是什么？打个比方，回到电气时代，以前是自家买爱迪生的直流发电机给自家发电，后来有了交流电，变成了发电厂发电然后供电给各家，这个发电厂其实就是电气时代的云平台，有了这个云平台，就降低了各家的用电成本，能让越来越多的人用上电。</p>
+
+<p>作为一个程序员，大家一定听说过百度的bae，新浪的sae，谷歌的gae，这些其实就是云计算的一种表现形式。某大公司有一大堆服务器，怎么开放给小公司或者个人使用呢？首先要把基本的开发环境搭建好，然后弄一套自家的开发框架出来，开发者只需要用git把本地的代码push上去就可以，这就是所谓的<code>应用引擎</code>。云计算还有一种表现形式就是像阿里云服务器、谷歌的compute engine这种，直接给你一台Linux服务器。我个人还是比较偏向第二种，用起来比较自由。</p>
+
+<p>今天来介绍一下在一台装了centos的服务器上搭建python web环境。</p>
+
+<h2>安装nginx服务器，它负责为tornado做负载均衡</h2>
+
+<ul>
+<li>在命令行执行如下命令：</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>vim /etc/yum.repos.d/nginx.repo
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>填写如下文本内容：</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="o">[</span>nginx<span class="o">]</span>
+</span><span class='line'><span class="nv">name</span><span class="o">=</span>nginx repo
+</span><span class='line'><span class="nv">baseurl</span><span class="o">=</span>http://nginx.org/packages/centos/<span class="nv">$releasever</span>/<span class="nv">$basearch</span>/
+</span><span class='line'><span class="nv">gpgcheck</span><span class="o">=</span>0
+</span><span class='line'><span class="nv">enabled</span><span class="o">=</span>1
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>在命令行执行yum命令安装nginx：</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>yum install nginx
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>配置防火墙，允许80端口：</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>iptables -I INPUT -p tcp --dport 80 -j ACCEPT
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>启动nginx：</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>/etc/init.d/nginx start
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>安装setuptools</h2>
+
+<ul>
+<li>在命令行执行如下命令：</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>wget https://bitbucket.org/pypa/setuptools/raw/bootstrap/ez_setup.py -O - | python
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>安装tornado</h2>
+
+<ul>
+<li>首先安装pip，在命令行执行如下命令：</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo yum install python-pip
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>然后安装tornado，在命令行执行如下命令：</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo pip install tornado
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>安装supervisor</h2>
+
+<ul>
+<li>在命令行执行如下命令：</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo pip install supervisor
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>安装mongodb</h2>
+
+<ul>
+<li>在<a href="http://downloads-distro.mongodb.org/repo/redhat/os/x86_64/RPMS/">mongodb官方站点</a>下载mongo-10gen-server-2.4.9-mongodb_1.x86_64.rpm和mongo-10gen-2.4.9-mongodb_1.x86_64.rpm，然后使用sudo rpm -ivh安装即可。</li>
+</ul>
+
+
+<h2>安装pymongo</h2>
+
+<p>当然也可以选择mongoengine。
+&ndash; 在命令行执行如下命令：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo pip install pymongo
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>生产环境的配置</h2>
+
+<ul>
+<li>首先是nginx的配置，nginx在这里主要的作用是做负载均衡，把请求分配给多个tornado进程。nginx的配置文件如下：</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>http <span class="o">{</span>
+</span><span class='line'>    charset utf-8;
+</span><span class='line'>    include       /etc/nginx/mime.types;
+</span><span class='line'>    default_type  application/octet-stream;
+</span><span class='line'>    log_format  main  <span class="s1">&#39;$remote_addr - $remote_user [$time_local] &quot;$request&quot; &#39;</span>
+</span><span class='line'>                      <span class="s1">&#39;$status $body_bytes_sent &quot;$http_referer&quot; &#39;</span>
+</span><span class='line'>                      <span class="s1">&#39;&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot;&#39;</span>;
+</span><span class='line'>    access_log  /var/log/nginx/access.log  main;
+</span><span class='line'>    keepalive_timeout  65;
+</span><span class='line'>    proxy_read_timeout 200;
+</span><span class='line'>    sendfile on;
+</span><span class='line'>    tcp_nopush on;
+</span><span class='line'>    tcp_nodelay on;
+</span><span class='line'>    gzip on;
+</span><span class='line'>    gzip_min_length 1000;
+</span><span class='line'>    gzip_proxied any;
+</span><span class='line'>    gzip_types text/plain text/css text/xml
+</span><span class='line'>               application/x-javascript application/xml
+</span><span class='line'>               application/atom+xml text/javascript;
+</span><span class='line'>    proxy_next_upstream error;
+</span><span class='line'>    upstream a2bgeektest <span class="o">{</span>
+</span><span class='line'>        server 127.0.0.1:8001;
+</span><span class='line'>        server 127.0.0.0:8002;
+</span><span class='line'>        server 127.0.0.1:8003;
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>    server <span class="o">{</span>
+</span><span class='line'>        listen       80;
+</span><span class='line'>        client_max_body_size 50M;
+</span><span class='line'>        location ^~ /static/ <span class="o">{</span>
+</span><span class='line'>            root /srv/http/static;
+</span><span class='line'>            <span class="k">if</span> <span class="o">(</span><span class="nv">$query_string</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>                expires max;
+</span><span class='line'>            <span class="o">}</span>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>        location / <span class="o">{</span>
+</span><span class='line'>            proxy_pass_header Server;
+</span><span class='line'>            proxy_set_header Host <span class="nv">$http_host</span>;
+</span><span class='line'>            proxy_redirect off;
+</span><span class='line'>            proxy_set_header X-Real-IP <span class="nv">$remote_addr</span>;
+</span><span class='line'>            proxy_set_header X-Scheme <span class="nv">$scheme</span>;
+</span><span class='line'>            proxy_pass http://a2bgeektest;
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>接下来使用supervisor启动并管理tornado进程
+在命令行使用vim新建并编辑一个配置文件/etc/supervisor/conf.d/test.conf，内容如下：</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="o">[</span>program:a2bgeektest<span class="o">]</span>
+</span><span class='line'><span class="nb">command</span> <span class="o">=</span> python /srv/http/a2bgeektest/tornadoapp.py --port<span class="o">=</span>80%<span class="o">(</span>process_num<span class="o">)</span>02d ;
+</span><span class='line'><span class="nv">autorestart</span> <span class="o">=</span> <span class="nb">true</span>
+</span><span class='line'><span class="nv">autostart</span> <span class="o">=</span> <span class="nb">true</span>
+</span><span class='line'><span class="nv">numprocs</span> <span class="o">=</span> 3
+</span><span class='line'><span class="nv">process_name</span> <span class="o">=</span> %<span class="o">(</span>program_name<span class="o">)</span>s-%<span class="o">(</span>process_num<span class="o">)</span>02d
+</span><span class='line'><span class="nv">stdout_logfile</span> <span class="o">=</span> /var/log/a2bgeektest/tornadoapptest.log
+</span><span class='line'><span class="nv">redirect_stderr</span> <span class="o">=</span> <span class="nb">true</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>然后在命令行下执行：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo supervisord -c /etc/supervisor/supervisord.conf
+</span><span class='line'>sudo supervisorctl reload
+</span><span class='line'>sudo supervisorctl start all
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>就可以启动3个同样的tornado进程。</p>
+
+<blockquote><p>好了，今天就到这里，欢迎拍砖。</p></blockquote>
+
+		
+		
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
 <time datetime="2014-03-13T20:51:22+08:00" data-updated="true" itemprop="datePublished">Mar 13<span>th</span>, 2014</time></div>
 		<div class="tags">
 
@@ -143,10 +444,10 @@
 
 </div>
 		
-			<span class="comments"><a href="/blog/2014/03/13/#disqus_thread">Comments</a></span>
+			<span class="comments"><a href="/blog/2014/03/13/guan-yu-da-dota.html/#disqus_thread">Comments</a></span>
 		
 	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2014/03/13/" itemprop="url">关于打DOTA</a></h1>
+	<h1 class="title" itemprop="name"><a href="/blog/2014/03/13/guan-yu-da-dota.html/" itemprop="url">关于打DOTA</a></h1>
 	<div class="entry-content" itemprop="articleBody">
 		<p>有人说过这样一句话：</p>
 
@@ -188,10 +489,10 @@
 
 </div>
 		
-			<span class="comments"><a href="/blog/2014/03/13/#disqus_thread">Comments</a></span>
+			<span class="comments"><a href="/blog/2014/03/13/xiao-xi-dui-lie-rabbitmqfen-xiang.html/#disqus_thread">Comments</a></span>
 		
 	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2014/03/13/" itemprop="url">消息队列RabbitMQ分享</a></h1>
+	<h1 class="title" itemprop="name"><a href="/blog/2014/03/13/xiao-xi-dui-lie-rabbitmqfen-xiang.html/" itemprop="url">消息队列RabbitMQ分享</a></h1>
 	<div class="entry-content" itemprop="articleBody">
 		<p>最近为我维护的微信公众号添加功能，添加之后发现返回速度变慢了，导致在5秒内无法给用户返回消息。遇到这种情况该怎么办呢？答案是把耗时的操作开线程做异步处理，不过大神给了我指点，没错，就是使用消息队列。</p>
 
@@ -295,7 +596,9 @@
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>我就是参考这段代码去优化我的异步处理的，好了，今天就到这里，欢迎拍砖。</p>
+<p>我就是参考这段代码去优化我的异步处理的。</p>
+
+<blockquote><p>好了，今天就到这里，欢迎拍砖。</p></blockquote>
 
 		
 		
@@ -327,10 +630,10 @@
 
 </div>
 		
-			<span class="comments"><a href="/blog/2014/03/07/#disqus_thread">Comments</a></span>
+			<span class="comments"><a href="/blog/2014/03/07/xin-de-kai-shi.html/#disqus_thread">Comments</a></span>
 		
 	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2014/03/07/" itemprop="url">新的开始</a></h1>
+	<h1 class="title" itemprop="name"><a href="/blog/2014/03/07/xin-de-kai-shi.html/" itemprop="url">新的开始</a></h1>
 	<div class="entry-content" itemprop="articleBody">
 		<p><img src="http://a2bgeekblog.qiniudn.com/image/png/newstart01.jpg" alt="" />
 <img src="http://a2bgeekblog.qiniudn.com/image/png/newstart02.jpg" alt="" /></p>

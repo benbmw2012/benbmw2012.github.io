@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: tech | A2BGeek's Blog]]></title>
-  <link href="http://a2bgeek.me/blog/categories/tech/atom.xml" rel="self"/>
+  <title><![CDATA[Category: python web | A2BGeek's Blog]]></title>
+  <link href="http://a2bgeek.me/blog/categories/python-web/atom.xml" rel="self"/>
   <link href="http://a2bgeek.me/"/>
   <updated>2014-03-31T20:27:58+08:00</updated>
   <id>http://a2bgeek.me/</id>
@@ -160,91 +160,6 @@ sudo supervisorctl start all
 <blockquote><p>好了，今天就到这里，欢迎拍砖。</p></blockquote></li>
 </ul>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[消息队列RabbitMQ分享]]></title>
-    <link href="http://a2bgeek.me/blog/2014/03/13/xiao-xi-dui-lie-rabbitmqfen-xiang.html/"/>
-    <updated>2014-03-13T18:52:31+08:00</updated>
-    <id>http://a2bgeek.me/blog/2014/03/13/xiao-xi-dui-lie-rabbitmqfen-xiang</id>
-    <content type="html"><![CDATA[<p>最近为我维护的微信公众号添加功能，添加之后发现返回速度变慢了，导致在5秒内无法给用户返回消息。遇到这种情况该怎么办呢？答案是把耗时的操作开线程做异步处理，不过大神给了我指点，没错，就是使用消息队列。</p>
-
-<p>消息队列顾名思义是一个队列，先进先出，可以把需要异步处理的消息（常常表现为字符串）先存到里面慢慢处理。</p>
-
-<p>我选用的消息队列是RabbitMQ，可以点击<a href="https://www.rabbitmq.com">RabbitMQ官方网站</a>查看文档。RabbitMQ是C/S结构，就像MySQL一样，提供了很多编程语言的客户端，因为我用的是python，所以使用了pika这个包。</p>
-
-<p>RabbitMQ使用的一般情形就是有几个receiver一直在监听消息队列，然后来自WEB服务器的需要先返回后处理数据的请求被不断地放入消息队列，reveiver们轮流去处理，如下图：<img src="https://www.rabbitmq.com/img/tutorials/python-two.png" alt="" /></p>
-
-<p>下面上代码：</p>
-
-<p>send.py
-``` python</p>
-
-<h1>!/usr/bin/env python</h1>
-
-<p>import pika
-import sys</p>
-
-<p>connection = pika.BlockingConnection(pika.ConnectionParameters(</p>
-
-<pre><code>host='localhost'))
-</code></pre>
-
-<p>channel = connection.channel()</p>
-
-<p>channel.queue_declare(queue=&lsquo;task_queue&rsquo;, durable=True)</p>
-
-<p>message = &lsquo; &rsquo;.join(sys.argv[1:]) or &ldquo;Hello World!&rdquo;
-channel.basic_publish(exchange=&lsquo;&rsquo;,</p>
-
-<pre><code>          routing_key='task_queue',
-          body=message,
-          properties=pika.BasicProperties(
-         delivery_mode = 2, # make message persistent
-          ))
-</code></pre>
-
-<p>print &ldquo; [x] Sent %r&rdquo; % (message,)
-connection.close()
-<code>
-receiver.py
-</code> python</p>
-
-<h1>!/usr/bin/env python</h1>
-
-<p>import pika
-import time</p>
-
-<p>connection = pika.BlockingConnection(pika.ConnectionParameters(</p>
-
-<pre><code>host='localhost'))
-</code></pre>
-
-<p>channel = connection.channel()</p>
-
-<p>channel.queue_declare(queue=&lsquo;task_queue&rsquo;, durable=True)
-print &lsquo; [*] Waiting for messages. To exit press CTRL+C&rsquo;</p>
-
-<p>def callback(ch, method, properties, body):</p>
-
-<pre><code>print " [x] Received %r" % (body,)
-time.sleep( body.count('.') )
-print " [x] Done"
-ch.basic_ack(delivery_tag = method.delivery_tag)
-</code></pre>
-
-<p>channel.basic_qos(prefetch_count=1)
-channel.basic_consume(callback,</p>
-
-<pre><code>          queue='task_queue')
-</code></pre>
-
-<p>channel.start_consuming()
-```
-我就是参考这段代码去优化我的异步处理的。</p>
-
-<blockquote><p>好了，今天就到这里，欢迎拍砖。</p></blockquote>
 ]]></content>
   </entry>
   
