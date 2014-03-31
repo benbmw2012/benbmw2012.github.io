@@ -63,4 +63,5 @@ channel.basic_consume(callback,
 
 channel.start_consuming()
 ```
-我就是参考这段代码去优化我的异步处理的，好了，今天就到这里，欢迎拍砖。
+我就是参考这段代码去优化我的异步处理的。
+> 好了，今天就到这里，欢迎拍砖。
