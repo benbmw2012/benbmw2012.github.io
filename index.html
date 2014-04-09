@@ -9,7 +9,7 @@
 	<meta name="author" content="A2BGeek">
 
 	
-	<meta name="description" content="Mar 27th, 2014 python web, tech Comments 搭建nginx+tornado+supervisor+mongodb环境 最近做一个项目需要用到传说中的云计算，云计算是什么？打个比方，回到电气时代，以前是自家买爱迪生的直流发电机给自家发电，后来有了交流电， &hellip;">
+	<meta name="description" content="Apr 9th, 2014 BeautifulSoup, tech Comments BeautifulSoup实战 最近有个项目要用天气数据，看了一些天气网站，决定从中国天气网上抓数据，python抓数据的框架我知道的不多，只听过BeautifulSoup， &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -117,6 +117,193 @@
 			<div class="mid-col-container">
 				<div id="content" class="inner">
 <div itemscope itemtype="http://schema.org/Blog">
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-04-09T09:08:31+08:00" data-updated="true" itemprop="datePublished">Apr 9<span>th</span>, 2014</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/beautifulsoup/'>BeautifulSoup</a>, <a class='category' href='/blog/categories/tech/'>tech</a>
+
+
+</div>
+		
+			<span class="comments"><a href="/blog/2014/04/09/beautifulsoupshi-zhan.html/#disqus_thread">Comments</a></span>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2014/04/09/beautifulsoupshi-zhan.html/" itemprop="url">BeautifulSoup实战</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>最近有个项目要用天气数据，看了一些天气网站，决定从<code>中国天气网</code>上抓数据，<code>python</code>抓数据的框架我知道的不多，只听过<code>BeautifulSoup</code>，下面记录一下使用<code>BeautifulSoup</code>抓取数据的全过程。<code>BeautifulSoup</code>的文档见<a href="http://www.crummy.com/software/BeautifulSoup/bs4/doc/index.zh.html">BeautifulSoup官方文档</a>。</p>
+
+<h2>这里大概介绍一下<code>BeautifulSoup</code>的用法，它和javascript的dom一样，把html文档看做一棵树。</h2>
+
+<ul>
+<li>可以用下面的代码取得根节点：</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">bs4</span> <span class="kn">import</span> <span class="n">BeautifulSoup</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">urllib</span>
+</span><span class='line'><span class="n">rawdata</span> <span class="o">=</span> <span class="n">urllib</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="s">&quot;http://xxx.xxx.xx&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="n">soup</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">rawdata</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>soup</code>就是根节点了，有了这个根节点就能遍历文档树了。</p>
+
+<ul>
+<li>find可以快速得到某一个或一簇标签：</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">head</span> <span class="o">=</span> <span class="n">soup</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;head&#39;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>可以得到</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;head&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;title&gt;</span>...<span class="nt">&lt;title&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;style&gt;</span><span class="err">...&lt;style&gt;</span>
+</span><span class='line'><span class="nt">&lt;/head&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>也可以加上id的限制:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">soup</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s">&quot;link3&quot;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>find_all可以有选择地得到一些标签：</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">soup</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="s">&#39;a&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="c"># [&lt;a class=&quot;sister&quot; href=&quot;http://example.com/elsie&quot; id=&quot;link1&quot;&gt;Elsie&lt;/a&gt;,</span>
+</span><span class='line'><span class="c">#  &lt;a class=&quot;sister&quot; href=&quot;http://example.com/lacie&quot; id=&quot;link2&quot;&gt;Lacie&lt;/a&gt;,</span>
+</span><span class='line'><span class="c">#  &lt;a class=&quot;sister&quot; href=&quot;http://example.com/tillie&quot; id=&quot;link3&quot;&gt;Tillie&lt;/a&gt;]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li><code>.</code>也很常用：</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">soup</span><span class="o">.</span><span class="n">title</span>
+</span><span class='line'><span class="c">#可以得到&lt;title&gt;The Dormouse&#39;s story&lt;/title&gt;</span>
+</span><span class='line'><span class="n">soup</span><span class="o">.</span><span class="n">title</span><span class="o">.</span><span class="n">name</span>
+</span><span class='line'><span class="c">#可以得到标签名</span>
+</span><span class='line'><span class="n">soup</span><span class="o">.</span><span class="n">title</span><span class="o">.</span><span class="n">string</span>
+</span><span class='line'><span class="c">#可以得到标签之间的文本</span>
+</span><span class='line'><span class="n">soup</span><span class="o">.</span><span class="n">p</span><span class="p">[</span><span class="s">&#39;class&#39;</span><span class="p">]</span>
+</span><span class='line'><span class="c">#可以得到p标签的class属性</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>contents也比较常用：</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">soup</span><span class="o">.</span><span class="n">body</span><span class="o">.</span><span class="n">contents</span>
+</span><span class='line'><span class="c">#是一个list，包括了body的所有子节点，既有tag也有文本。</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>下面介绍抓取中国天气网数据的过程。</h2>
+
+<p>首先打开网页<a href="http://www.weather.com.cn/weather/101160101.shtml">兰州天气</a>，再打开firebug找到我们需要抓取的部分。如图所示：
+<img src="http://a2bgeekblog.qiniudn.com/image/png/beatifulsoup.png" alt="" />，其中<code>id="7d"</code>的<code>div</code>就是我们要抓取的部分。下面上代码：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">tag7d</span> <span class="o">=</span> <span class="n">soup</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="nb">id</span> <span class="o">=</span> <span class="s">&quot;7d&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="c">#得到id=&quot;7d&quot;的div</span>
+</span><span class='line'><span class="n">tagweatherYubaoBox</span> <span class="o">=</span> <span class="n">tag7d</span><span class="o">.</span><span class="n">contents</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+</span><span class='line'><span class="c">#得到class=&quot;weatherYubaoBox&quot;的div</span>
+</span><span class='line'><span class="n">resultset</span> <span class="o">=</span> <span class="p">[</span><span class="n">tagweatherYubaoBox</span><span class="o">.</span><span class="n">contents</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="s">&quot;a&quot;</span><span class="p">),</span> <span class="n">tagweatherYubaoBox</span><span class="o">.</span><span class="n">contents</span><span class="p">[</span><span class="mi">9</span><span class="p">]</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="s">&quot;a&quot;</span><span class="p">),</span> <span class="n">tagweatherYubaoBox</span><span class="o">.</span><span class="n">contents</span><span class="p">[</span><span class="mi">13</span><span class="p">]</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="s">&quot;a&quot;</span><span class="p">)]</span>
+</span><span class='line'><span class="c">#这里我只想取当天、明天、后天的天气，也就是class=&quot;yuBaoTable&quot;的前三个table，接下来就可以循环去数据了。</span>
+</span><span class='line'><span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span class='line'><span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">resultset</span><span class="p">:</span>
+</span><span class='line'>    <span class="n">tmp_dict</span> <span class="o">=</span> <span class="p">{}</span>
+</span><span class='line'>    <span class="n">tmp_dict</span><span class="p">[</span><span class="s">&quot;date&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">item</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">string</span>
+</span><span class='line'>    <span class="n">tmp_dict</span><span class="p">[</span><span class="s">&quot;imgurl&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s">&quot;http://www.weather.com.cn&quot;</span><span class="p">,</span> <span class="n">item</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">contents</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s">&quot;src&quot;</span><span class="p">]])</span>
+</span><span class='line'>    <span class="n">tmp_dict</span><span class="p">[</span><span class="s">&quot;weather&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">item</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">string</span>
+</span><span class='line'>    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="o">==</span> <span class="mi">6</span><span class="p">:</span>
+</span><span class='line'><span class="c">#中国天气网的数据在6点以后就没有白天的数据了，所以这里判断了一下。</span>
+</span><span class='line'>        <span class="n">tmp_dict</span><span class="p">[</span><span class="s">&quot;low&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s">u&quot;夜间&quot;</span><span class="p">,</span> <span class="n">item</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">contents</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">contents</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">item</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">contents</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">contents</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">string</span><span class="p">])</span>
+</span><span class='line'>    <span class="k">else</span><span class="p">:</span>
+</span><span class='line'>        <span class="n">tmp_dict</span><span class="p">[</span><span class="s">&quot;high&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s">u&quot;白天&quot;</span><span class="p">,</span> <span class="n">item</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">contents</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">contents</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">item</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">contents</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">contents</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">string</span><span class="p">])</span>
+</span><span class='line'>        <span class="n">tmp_dict</span><span class="p">[</span><span class="s">&quot;low&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s">u&quot;夜间&quot;</span><span class="p">,</span> <span class="n">item</span><span class="p">[</span><span class="mi">8</span><span class="p">]</span><span class="o">.</span><span class="n">contents</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">contents</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">item</span><span class="p">[</span><span class="mi">8</span><span class="p">]</span><span class="o">.</span><span class="n">contents</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">contents</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">string</span><span class="p">])</span>
+</span><span class='line'>    <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tmp_dict</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<blockquote><p>好了今天就到这里，欢迎拍砖。</p></blockquote>
+
+		
+		
+	</div>
+
+</article>
 
 
     <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">

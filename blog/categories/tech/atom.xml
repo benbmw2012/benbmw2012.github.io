@@ -4,7 +4,7 @@
   <title><![CDATA[Category: tech | A2BGeek's Blog]]></title>
   <link href="http://a2bgeek.me/blog/categories/tech/atom.xml" rel="self"/>
   <link href="http://a2bgeek.me/"/>
-  <updated>2014-03-31T21:21:53+08:00</updated>
+  <updated>2014-04-09T10:26:25+08:00</updated>
   <id>http://a2bgeek.me/</id>
   <author>
     <name><![CDATA[A2BGeek]]></name>
@@ -12,6 +12,119 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[BeautifulSoup实战]]></title>
+    <link href="http://a2bgeek.me/blog/2014/04/09/beautifulsoupshi-zhan.html/"/>
+    <updated>2014-04-09T09:08:31+08:00</updated>
+    <id>http://a2bgeek.me/blog/2014/04/09/beautifulsoupshi-zhan</id>
+    <content type="html"><![CDATA[<p>最近有个项目要用天气数据，看了一些天气网站，决定从<code>中国天气网</code>上抓数据，<code>python</code>抓数据的框架我知道的不多，只听过<code>BeautifulSoup</code>，下面记录一下使用<code>BeautifulSoup</code>抓取数据的全过程。<code>BeautifulSoup</code>的文档见<a href="http://www.crummy.com/software/BeautifulSoup/bs4/doc/index.zh.html">BeautifulSoup官方文档</a>。</p>
+
+<h2>这里大概介绍一下<code>BeautifulSoup</code>的用法，它和javascript的dom一样，把html文档看做一棵树。</h2>
+
+<ul>
+<li><p>可以用下面的代码取得根节点：
+<code>python
+from bs4 import BeautifulSoup
+import urllib
+rawdata = urllib.urlopen("http://xxx.xxx.xx")
+soup = BeautifulSoup(rawdata)
+</code>
+<code>soup</code>就是根节点了，有了这个根节点就能遍历文档树了。</p></li>
+<li><p>find可以快速得到某一个或一簇标签：
+<code>python
+head = soup.find('head')
+</code>
+可以得到
+<code>html
+&lt;head&gt;
+  &lt;title&gt;...&lt;title&gt;
+  &lt;style&gt;...&lt;style&gt;
+&lt;/head&gt;
+</code>
+也可以加上id的限制:
+<code>python
+soup.find(id="link3")
+</code></p></li>
+<li>find_all可以有选择地得到一些标签：
+``` python
+soup.find_all(&lsquo;a&rsquo;)
+
+<h1>[<a class="sister" href="http://example.com/elsie" id="link1">Elsie</a>,</h1>
+
+<h1><a class="sister" href="http://example.com/lacie" id="link2">Lacie</a>,</h1>
+
+<h1><a class="sister" href="http://example.com/tillie" id="link3">Tillie</a>]</h1>
+
+<p>```</p></li>
+<li><code>.</code>也很常用：
+``` python
+soup.title
+
+<h1>可以得到<title>The Dormouse&rsquo;s story</title></h1>
+
+soup.title.name
+
+<h1>可以得到标签名</h1>
+
+soup.title.string
+
+<h1>可以得到标签之间的文本</h1>
+
+soup.p[&lsquo;class&rsquo;]
+
+<h1>可以得到p标签的class属性</h1>
+
+<p>```</p></li>
+<li>contents也比较常用：
+``` python
+soup.body.contents
+
+<h1>是一个list，包括了body的所有子节点，既有tag也有文本。</h1>
+
+```
+
+<h2>下面介绍抓取中国天气网数据的过程。</h2>
+
+首先打开网页<a href="http://www.weather.com.cn/weather/101160101.shtml">兰州天气</a>，再打开firebug找到我们需要抓取的部分。如图所示：
+<img src="http://a2bgeekblog.qiniudn.com/image/png/beatifulsoup.png" alt="" />，其中<code>id="7d"</code>的<code>div</code>就是我们要抓取的部分。下面上代码：
+``` python
+tag7d = soup.find(id = &ldquo;7d&rdquo;)
+
+<h1>得到id=&ldquo;7d"的div</h1>
+
+tagweatherYubaoBox = tag7d.contents[3]
+
+<h1>得到class=&ldquo;weatherYubaoBox"的div</h1>
+
+resultset = [tagweatherYubaoBox.contents[5].find_all(&ldquo;a&rdquo;), tagweatherYubaoBox.contents[9].find_all(&ldquo;a&rdquo;), tagweatherYubaoBox.contents[13].find_all(&ldquo;a&rdquo;)]
+
+<h1>这里我只想取当天、明天、后天的天气，也就是class=&ldquo;yuBaoTable"的前三个table，接下来就可以循环去数据了。</h1>
+
+result = []
+for item in resultset:
+  tmp_dict = {}
+  tmp_dict[&ldquo;date&rdquo;] = item[0].string
+  tmp_dict[&ldquo;imgurl&rdquo;] = &lsquo;&rsquo;.join([&ldquo;<a href="http://www.weather.com.cn">http://www.weather.com.cn</a>&rdquo;, item[1].contents[1][&ldquo;src&rdquo;]])
+  tmp_dict[&ldquo;weather&rdquo;] = item[2].string
+  if len(item) == 6:
+
+<h1>中国天气网的数据在6点以后就没有白天的数据了，所以这里判断了一下。</h1>
+
+<pre><code>  tmp_dict["low"] = ' '.join([u"夜间", item[3].contents[1].contents[0], item[3].contents[1].contents[1].string])
+</code></pre>
+
+  else:
+      tmp_dict[&ldquo;high&rdquo;] = &lsquo; &rsquo;.join([u"白天", item[3].contents[1].contents[0], item[3].contents[1].contents[1].string])
+      tmp_dict[&ldquo;low&rdquo;] = &lsquo; &rsquo;.join([u"夜间", item[8].contents[1].contents[0], item[8].contents[1].contents[1].string])
+  result.append(tmp_dict)
+```
+
+<blockquote><p>好了今天就到这里，欢迎拍砖。</p></blockquote></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[搭建nginx+tornado+supervisor+mongodb环境]]></title>
