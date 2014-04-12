@@ -4,7 +4,7 @@
   <title><![CDATA[Category: tech | A2BGeek's Blog]]></title>
   <link href="http://a2bgeek.me/blog/categories/tech/atom.xml" rel="self"/>
   <link href="http://a2bgeek.me/"/>
-  <updated>2014-04-09T10:26:25+08:00</updated>
+  <updated>2014-04-12T10:07:44+08:00</updated>
   <id>http://a2bgeek.me/</id>
   <author>
     <name><![CDATA[A2BGeek]]></name>
@@ -119,6 +119,7 @@ for item in resultset:
       tmp_dict[&ldquo;low&rdquo;] = &lsquo; &rsquo;.join([u"夜间", item[8].contents[1].contents[0], item[8].contents[1].contents[1].string])
   result.append(tmp_dict)
 ```
+最后为大家提供一个我吐血整理的城市名称和城市编号的对应关系，请<a href="http://a2bgeekblog.qiniudn.com/file/py/data.py">点击</a>下载。
 
 <blockquote><p>好了今天就到这里，欢迎拍砖。</p></blockquote></li>
 </ul>

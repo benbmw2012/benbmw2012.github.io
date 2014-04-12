@@ -4,7 +4,7 @@
   <title><![CDATA[A2BGeek's Blog]]></title>
   <link href="http://a2bgeek.me/atom.xml" rel="self"/>
   <link href="http://a2bgeek.me/"/>
-  <updated>2014-04-09T10:26:25+08:00</updated>
+  <updated>2014-04-12T10:07:44+08:00</updated>
   <id>http://a2bgeek.me/</id>
   <author>
     <name><![CDATA[A2BGeek]]></name>
@@ -167,6 +167,8 @@
 </span><span class='line'>    <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tmp_dict</span><span class="p">)</span>
 </span></code></pre></td></tr></table></div></figure>
 
+
+<p>最后为大家提供一个我吐血整理的城市名称和城市编号的对应关系，请<a href="http://a2bgeekblog.qiniudn.com/file/py/data.py">点击</a>下载。</p>
 
 <blockquote><p>好了今天就到这里，欢迎拍砖。</p></blockquote>
 ]]></content>
