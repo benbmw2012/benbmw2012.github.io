@@ -80,4 +80,5 @@ for item in resultset:
         tmp_dict["low"] = ' '.join([u"夜间", item[8].contents[1].contents[0], item[8].contents[1].contents[1].string])
     result.append(tmp_dict)
 ```
+最后为大家提供一个我吐血整理的城市名称和城市编号的对应关系，请[点击](http://a2bgeekblog.qiniudn.com/file/py/data.py)下载。
 > 好了今天就到这里，欢迎拍砖。
