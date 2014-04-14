@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: miapp | A2BGeek's Blog]]></title>
+  <link href="http://a2bgeek.me/blog/categories/miapp/atom.xml" rel="self"/>
+  <link href="http://a2bgeek.me/"/>
+  <updated>2014-04-14T09:45:53+08:00</updated>
+  <id>http://a2bgeek.me/</id>
+  <author>
+    <name><![CDATA[A2BGeek]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[小米系统APP初体验]]></title>
+    <link href="http://a2bgeek.me/blog/2014/04/13/xiao-mi-xi-tong-appchu-ti-yan.html/"/>
+    <updated>2014-04-13T15:38:58+08:00</updated>
+    <id>http://a2bgeek.me/blog/2014/04/13/xiao-mi-xi-tong-appchu-ti-yan</id>
+    <content type="html"><![CDATA[<p>今天来体验一下小米系统app，小米系统是一个超级app，集成了miui桌面、miui拨号、miui联系人、miui短信和小米云服务。下面来体验一下小米系统。</p>
+
+<h2>miui桌面</h2>
+
+<p><img src="http://a2bgeekblog.qiniudn.com/image/png/miuiapp/miui_launcher0.png" width="320" height="480"/>
+<img src="http://a2bgeekblog.qiniudn.com/image/png/miuiapp/miui_launcher1.png" width="320" height="480"/>
+<img src="http://a2bgeekblog.qiniudn.com/image/png/miuiapp/miui_launcher2.png" width="320" height="480"/>
+<img src="http://a2bgeekblog.qiniudn.com/image/png/miuiapp/miui_launcher3.png" width="320" height="480"/>
+<img src="http://a2bgeekblog.qiniudn.com/image/png/miuiapp/miui_launcher4.png" width="320" height="480"/>
+<img src="http://a2bgeekblog.qiniudn.com/image/png/miuiapp/miui_launcher5.png" width="320" height="480"/></p>
+
+<h2>miui锁屏</h2>
+
+<p><img src="http://a2bgeekblog.qiniudn.com/image/png/miuiapp/miui_lock0.png" width="320" height="480"/>
+<img src="http://a2bgeekblog.qiniudn.com/image/png/miuiapp/miui_lock1.png" width="320" height="480"/></p>
+
+<h2>miui拨号和联系人</h2>
+
+<p><img src="http://a2bgeekblog.qiniudn.com/image/png/miuiapp/miui_contact0.png" width="320" height="480"/>
+<img src="http://a2bgeekblog.qiniudn.com/image/png/miuiapp/miui_contact1.png" width="320" height="480"/>
+<img src="http://a2bgeekblog.qiniudn.com/image/png/miuiapp/miui_contact2.png" width="320" height="480"/></p>
+
+<h2>miui短信</h2>
+
+<p><img src="http://a2bgeekblog.qiniudn.com/image/png/miuiapp/miui_sms0.png" width="320" height="480"/>
+<img src="http://a2bgeekblog.qiniudn.com/image/png/miuiapp/miui_sms1.png" width="320" height="480"/>
+<img src="http://a2bgeekblog.qiniudn.com/image/png/miuiapp/miui_sms2.png" width="320" height="480"/></p>
+
+<h2>小米云服务</h2>
+
+<p><img src="http://a2bgeekblog.qiniudn.com/image/png/miuiapp/miui_cloud0.png" width="320" height="480"/></p>
+
+<h2>小米主题商店</h2>
+
+<p><img src="http://a2bgeekblog.qiniudn.com/image/png/miuiapp/miui_theme0.png" width="320" height="480"/>
+<img src="http://a2bgeekblog.qiniudn.com/image/png/miuiapp/miui_theme1.png" width="320" height="480"/></p>
+
+<h2>小米应用商店</h2>
+
+<p><img src="http://a2bgeekblog.qiniudn.com/image/png/miuiapp/miui_store0.png" width="320" height="480"/></p>
+
+<blockquote><p>好了，今天就到这里，欢迎拍砖。</p></blockquote>
+]]></content>
+  </entry>
+  
+</feed>

@@ -1,0 +1,489 @@
+
+<!DOCTYPE HTML>
+
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>快递100API使用讲解 - A2BGeek's Blog</title>
+	<meta name="author" content="A2BGeek">
+
+	
+	<meta name="description" content="快递100API使用讲解 今天主要讲解的是如何通过api.kuaidi100.com获得物流单号的跟踪信息。 其实说来很简单，就是通过向指定的地址发送请求，即可返回如JSON、XML等格式的跟综结果。 应用场景 1. 电商网站用户打开“我的订单”时调用此API显示结果
+2. &hellip;">
+	
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="A2BGeek's Blog" type="application/atom+xml">
+	
+	<link rel="canonical" href="http://a2bgeek.me/blog/2014/04/14/kuai-di-100apishi-yong-jiang-jie.html/">
+	<link href="/favicon2.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<link href='http://fonts.googleapis.com/css?family=Nunito:400,300,700' rel='stylesheet' type='text/css'>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js" type="text/javascript"></script>
+
+
+  
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-48716979-1']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+
+
+</head>
+
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+			<header id="header" class="inner"><div class="profilepic">
+	<!--
+	<script src="/javascripts/md5.js"></script>
+	<script type="text/javascript">
+		$(function(){
+			$('.profilepic').append("<img src='http://www.gravatar.com/avatar/" + MD5("") + "?s=160' alt='Profile Picture' style='width: 160px;' />");
+		});
+	</script>
+	-->
+        <img src="http://a2bgeekblog.qiniudn.com/image/png/myblogicon.png" alt="Profile Picture" style="width: 160px"/>
+</div>
+<hgroup>
+  <h1><a href="/">A2BGeek's Blog</a></h1>
+  <h2>May the force be with you</h2>
+</hgroup>
+
+<nav id="main-nav"><ul class="main">
+    <li><a href="/">Blog</a></li>
+    <li><a href="/blog/archives">Archives</a></li>
+    <li><a href="/about">About Me</a></li>
+</ul>
+
+
+<section class="aboutme">
+  <p>
+    简约 & 追求极致 & 玩命折腾
+  </p>
+</section>
+</nav>
+<nav id="sub-nav">
+	<div class="social">
+		
+		
+			<a class="weibo" href="http://weibo.com/a2bgeek"></a>
+		
+		
+		
+			<a class="google" href="https://plus.google.com/u/0/+YujieFangA2BGeek/posts" rel="author" title="Google+">Google+</a>
+		
+		
+		
+			<a class="github" href="https://github.com/benbmw2012" title="GitHub">GitHub</a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+			<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+	</div>
+</nav>
+</header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			
+				
+			
+			<div class="mid-col-container">
+				<div id="content" class="inner"><article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+	<h1 class="title" itemprop="name">快递100API使用讲解</h1>
+	<div class="entry-content" itemprop="articleBody"><p>今天主要讲解的是如何通过api.kuaidi100.com获得物流单号的跟踪信息。</p>
+
+<p>其实说来很简单，就是通过向指定的地址发送请求，即可返回如JSON、XML等格式的跟综结果。</p>
+
+<h2>应用场景</h2>
+
+<pre><code>1. 电商网站用户打开“我的订单”时调用此API显示结果
+2. 物流系统对帐前调用此API查一次所有运单的签收状态
+</code></pre>
+
+<h2>是否需要授权</h2>
+
+<p>是，需要到<a href="http://www.kuaidi100.com/openapi/applyapi.shtml">快递查询API申请地址</a>申请。</p>
+
+<h2>API请求地址</h2>
+
+<p><a href="http://api.kuaidi100.com/api?id=">http://api.kuaidi100.com/api?id=</a>[]&amp;com=[]&amp;nu=[]&amp;valicode=[]&amp;show=[0|1|2|3]&amp;muti=[0|1]&amp;order=[desc|asc]</p>
+
+<h2>参数说明</h2>
+
+<table class="tab_use_child" cellspacing="0">
+    <tbody>
+        <tr>
+            <th width="90" scope="col">名称</th>
+            <th width="90" scope="col">类型</th>
+            <th width="100" scope="col">是否必需</th>
+            <th style="text-align:left;" scope="col"> 　　描述</th>
+        </tr>
+        <tr style="background-color: rgb(255, 255, 255);">
+            <td>id</td>
+            <td> String</td>
+            <td>是</td>
+            <td style="text-align:left;">
+            身份授权key，请
+            <a target="_blank" href="/openapi/applyapi.shtml">快递查询接口</a>
+            进行申请（大小写敏感）
+            </td>
+        </tr>
+        <tr style="background-color: rgb(255, 255, 255);">
+            <td>com</td>
+            <td>String</td>
+            <td>是</td>
+            <td style="text-align:left;">
+            要查询的快递公司代码，不支持中文，对应的公司代码见
+            <br>
+            《
+            <a class="aco" target="_blank" href="http://code.google.com/p/kuaidi-api/wiki/Open_API_API_URL">API URL 所支持的快递公司及参数说明</a>
+            》和《
+            <a class="aco" target="_blank" href="http://code.google.com/p/kuaidi-api/wiki/Open_API_For_International_Express">支持的国际类快递及参数说明</a>
+            》。
+            <br>
+            如果找不到您所需的公司，请发邮件至
+            <a class="aco" href="mailto:kuaidi@kingdee.com"> kuaidi@kingdee.com </a>
+            咨询（大小写不敏感）
+            </td>
+        </tr>
+        <tr style="background-color: rgb(255, 255, 255);">
+            <td>nu</td>
+            <td> String</td>
+            <td>是</td>
+            <td style="text-align:left;">要查询的快递单号，请勿带特殊符号，不支持中文（大小写不敏感）</td>
+        </tr>
+        <tr style="background-color: rgb(255, 255, 255);">
+            <td>valicode</td>
+            <td>String</td>
+            <td>是</td>
+            <td style="text-align:left;">已弃用字段，无意义，请忽略。</td>
+        </tr>
+        <tr style="background-color: rgb(255, 255, 255);">
+            <td>show</td>
+            <td> String</td>
+            <td>是</td>
+            <td style="text-align:left;">
+            返回类型：
+            <br>
+            0：返回json字符串，
+            <br>
+            1：返回xml对象，
+            <br>
+            2：返回html对象，
+            <br>
+            3：返回text文本。
+            <br>
+            如果不填，默认返回json字符串。
+            </td>
+        </tr>
+        <tr style="background-color: rgb(255, 255, 255);">
+            <td>muti</td>
+            <td> String</td>
+            <td>是</td>
+            <td style="text-align:left;">
+            返回信息数量：
+            <br>
+            1:返回多行完整的信息，
+            <br>
+            0:只返回一行信息。
+            <br>
+            不填默认返回多行。
+            <br>
+            </td>
+        </tr>
+        <tr style="background-color: rgb(255, 255, 255);">
+            <td>order</td>
+            <td> String</td>
+            <td>是</td>
+            <td style="text-align:left;">
+            排序：
+            <br>
+            desc：按时间由新到旧排列，
+            <br>
+            asc：按时间由旧到新排列。
+            <br>
+            不填默认返回倒序（大小写不敏感）
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+
+<h2>返回结果</h2>
+
+<table class="tab_use_child" cellspacing="0">
+    <tbody>
+        <tr style="background-color: rgb(255, 255, 255);">
+            <th width="260" scope="col">字段名称</th>
+            <th style="text-align:left;" scope="col">　　字段含义</th>
+        </tr>
+        <tr>
+            <td>com</td>
+            <td style="text-align:left;">物流公司编号</td>
+        </tr>
+        <tr style="background-color: rgb(255, 255, 255);">
+            <td>nu</td>
+            <td style="text-align:left;">物流单号</td>
+        </tr>
+        <tr style="background-color: rgb(255, 255, 255);">
+            <td>time</td>
+            <td style="text-align:left;">每条跟踪信息的时间</td>
+        </tr>
+        <tr style="background-color: rgb(255, 255, 255);">
+            <td>context</td>
+            <td style="text-align:left;">每条跟综信息的描述</td>
+        </tr>
+        <tr style="background-color: rgb(255, 255, 255);">
+            <td>state</td>
+            <td style="text-align:left;">
+            快递单当前的状态 ：　
+            <br>
+            0：在途，即货物处于运输过程中；
+            <br>
+            1：揽件，货物已由快递公司揽收并且产生了第一条跟踪信息；
+            <br>
+            2：疑难，货物寄送过程出了问题；
+            <br>
+            3：签收，收件人已签收；
+            <br>
+            4：退签，即货物由于用户拒签、超区等原因退回，而且发件人已经签收；
+            <br>
+            5：派件，即快递正在进行同城派件；
+            <br>
+            6：退回，货物正处于退回发件人的途中；
+            <br>
+            该状态还在不断完善中，若您有更多的参数需求，欢迎发邮件至
+            <a class="aco ff" href="mailto:kuaidi@kingdee.com"> kuaidi@kingdee.com</a>
+            提出。
+            </td>
+        </tr>
+        <tr style="background-color: rgb(255, 255, 255);">
+            <td>status</td>
+            <td style="text-align:left;">
+            查询结果状态：
+            <br>
+            0：物流单暂无结果，
+            <br>
+            1：查询成功，
+            <br>
+            2：接口出现异常，
+            </td>
+        </tr>
+        <tr style="background-color: rgb(255, 255, 255);">
+            <td>message</td>
+            <td style="text-align:left;">无意义，请忽略</td>
+        </tr>
+        <tr style="background-color: rgb(255, 255, 255);">
+            <td>condition</td>
+            <td style="text-align:left;">无意义，请忽略</td>
+        </tr>
+        <tr style="background-color: rgb(255, 255, 255);">
+            <td>ischeck</td>
+            <td style="text-align:left;">无意义，请忽略</td>
+        </tr>
+    </tbody>
+</table>
+
+
+<h2>返回示例</h2>
+
+<h3>xml格式</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+</pre></td><td class='code'><pre><code class='xml'><span class='line'><span class="nt">&lt;xml&gt;</span>
+</span><span class='line'><span class="nt">&lt;message&gt;</span>ok<span class="nt">&lt;/message&gt;</span>
+</span><span class='line'><span class="nt">&lt;nu&gt;</span>1200722815552<span class="nt">&lt;/nu&gt;</span>
+</span><span class='line'><span class="nt">&lt;ischeck&gt;</span>1<span class="nt">&lt;/ischeck&gt;</span>
+</span><span class='line'><span class="nt">&lt;com&gt;</span>yunda<span class="nt">&lt;/com&gt;</span>
+</span><span class='line'><span class="nt">&lt;status&gt;</span>1<span class="nt">&lt;/status&gt;</span>
+</span><span class='line'><span class="nt">&lt;condition&gt;</span>F00<span class="nt">&lt;/condition&gt;</span>
+</span><span class='line'><span class="nt">&lt;data&gt;</span>
+</span><span class='line'><span class="nt">&lt;time&gt;</span>2013-03-03 19:24:48<span class="nt">&lt;/time&gt;</span>
+</span><span class='line'><span class="nt">&lt;context&gt;</span>江苏泗阳县公司:进行揽件扫描<span class="nt">&lt;/context&gt;</span>
+</span><span class='line'><span class="nt">&lt;/data&gt;</span>
+</span><span class='line'><span class="nt">&lt;data&gt;</span>
+</span><span class='line'><span class="nt">&lt;time&gt;</span>2013-03-03 19:25:10<span class="nt">&lt;/time&gt;</span>
+</span><span class='line'><span class="nt">&lt;context&gt;</span>江苏泗阳县公司:进行发出扫描，将发往：江苏淮安中转站<span class="nt">&lt;/context&gt;</span>
+</span><span class='line'><span class="nt">&lt;/data&gt;</span>
+</span><span class='line'><span class="nt">&lt;data&gt;</span>
+</span><span class='line'><span class="nt">&lt;time&gt;</span>2013-03-03 21:44:47<span class="nt">&lt;/time&gt;</span>
+</span><span class='line'><span class="nt">&lt;context&gt;</span>江苏淮安中转站:快件进入分拨中心进行分拨<span class="nt">&lt;/context&gt;</span>
+</span><span class='line'><span class="nt">&lt;/data&gt;</span>
+</span><span class='line'><span class="nt">&lt;data&gt;</span>
+</span><span class='line'><span class="nt">&lt;time&gt;</span>2013-03-04 03:22:44<span class="nt">&lt;/time&gt;</span>
+</span><span class='line'><span class="nt">&lt;context&gt;</span>江苏南京中转站:从站点发出，本次转运目的地：江苏南京栖霞区仙林公司<span class="nt">&lt;/context&gt;</span>
+</span><span class='line'><span class="nt">&lt;/data&gt;</span>
+</span><span class='line'><span class="nt">&lt;data&gt;</span>
+</span><span class='line'><span class="nt">&lt;time&gt;</span>2013-03-04 08:25:03<span class="nt">&lt;/time&gt;</span>
+</span><span class='line'><span class="nt">&lt;context&gt;</span>江苏南京栖霞区仙林公司:到达目的地网点，快件将很快进行派送<span class="nt">&lt;/context&gt;</span>
+</span><span class='line'><span class="nt">&lt;/data&gt;</span>
+</span><span class='line'><span class="nt">&lt;data&gt;</span>
+</span><span class='line'><span class="nt">&lt;time&gt;</span>2013-03-04 13:09:58<span class="nt">&lt;/time&gt;</span>
+</span><span class='line'><span class="nt">&lt;context&gt;</span>江苏南京栖霞区仙林公司:进行派件扫描；派送业务员：孙；（<span class="nt">&lt;/context&gt;</span>
+</span><span class='line'><span class="nt">&lt;/data&gt;</span>
+</span><span class='line'><span class="nt">&lt;data&gt;</span>
+</span><span class='line'><span class="nt">&lt;time&gt;</span>2013-03-04 13:19:47<span class="nt">&lt;/time&gt;</span>
+</span><span class='line'><span class="nt">&lt;context&gt;</span>江苏南京栖霞区仙林公司:快件已被 图片 签收<span class="nt">&lt;/context&gt;</span>
+</span><span class='line'><span class="nt">&lt;/data&gt;</span>
+</span><span class='line'><span class="nt">&lt;state&gt;</span>3<span class="nt">&lt;/state&gt;</span>
+</span><span class='line'><span class="nt">&lt;/xml&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>json格式</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='json'><span class='line'><span class="p">{</span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="s2">&quot;ok&quot;</span><span class="p">,</span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="s2">&quot;1&quot;</span><span class="p">,</span><span class="nt">&quot;state&quot;</span><span class="p">:</span><span class="s2">&quot;3&quot;</span><span class="p">,</span><span class="nt">&quot;data&quot;</span><span class="p">:</span>
+</span><span class='line'>    <span class="p">[{</span><span class="nt">&quot;time&quot;</span><span class="p">:</span><span class="s2">&quot;2012-07-07 13:35:14&quot;</span><span class="p">,</span><span class="nt">&quot;context&quot;</span><span class="p">:</span><span class="s2">&quot;客户已签收&quot;</span><span class="p">},</span>
+</span><span class='line'>        <span class="p">{</span><span class="nt">&quot;time&quot;</span><span class="p">:</span><span class="s2">&quot;2012-07-07 09:10:10&quot;</span><span class="p">,</span><span class="nt">&quot;context&quot;</span><span class="p">:</span><span class="s2">&quot;离开 [北京石景山营业厅] 派送中，递送员[温]，电话[]&quot;</span><span class="p">},</span>
+</span><span class='line'>        <span class="p">{</span><span class="nt">&quot;time&quot;</span><span class="p">:</span><span class="s2">&quot;2012-07-06 19:46:38&quot;</span><span class="p">,</span><span class="nt">&quot;context&quot;</span><span class="p">:</span><span class="s2">&quot;到达 [北京石景山营业厅]&quot;</span><span class="p">},</span>
+</span><span class='line'>        <span class="p">{</span><span class="nt">&quot;time&quot;</span><span class="p">:</span><span class="s2">&quot;2012-07-06 15:22:32&quot;</span><span class="p">,</span><span class="nt">&quot;context&quot;</span><span class="p">:</span><span class="s2">&quot;离开 [北京石景山营业厅] 派送中，递送员[温]，电话[]&quot;</span><span class="p">},</span>
+</span><span class='line'>        <span class="p">{</span><span class="nt">&quot;time&quot;</span><span class="p">:</span><span class="s2">&quot;2012-07-06 15:05:00&quot;</span><span class="p">,</span><span class="nt">&quot;context&quot;</span><span class="p">:</span><span class="s2">&quot;到达 [北京石景山营业厅]&quot;</span><span class="p">},</span>
+</span><span class='line'>        <span class="p">{</span><span class="nt">&quot;time&quot;</span><span class="p">:</span><span class="s2">&quot;2012-07-06 13:37:52&quot;</span><span class="p">,</span><span class="nt">&quot;context&quot;</span><span class="p">:</span><span class="s2">&quot;离开 [北京_同城中转站] 发往 [北京石景山营业厅]&quot;</span><span class="p">},</span>
+</span><span class='line'>        <span class="p">{</span><span class="nt">&quot;time&quot;</span><span class="p">:</span><span class="s2">&quot;2012-07-06 12:54:41&quot;</span><span class="p">,</span><span class="nt">&quot;context&quot;</span><span class="p">:</span><span class="s2">&quot;到达 [北京_同城中转站]&quot;</span><span class="p">},</span>
+</span><span class='line'>        <span class="p">{</span><span class="nt">&quot;time&quot;</span><span class="p">:</span><span class="s2">&quot;2012-07-06 11:11:03&quot;</span><span class="p">,</span><span class="nt">&quot;context&quot;</span><span class="p">:</span><span class="s2">&quot;离开 [北京运转中心驻站班组] 发往 [北京_同城中转站]&quot;</span><span class="p">},</span>
+</span><span class='line'>        <span class="p">{</span><span class="nt">&quot;time&quot;</span><span class="p">:</span><span class="s2">&quot;2012-07-06 10:43:21&quot;</span><span class="p">,</span><span class="nt">&quot;context&quot;</span><span class="p">:</span><span class="s2">&quot;到达 [北京运转中心驻站班组]&quot;</span><span class="p">},</span>
+</span><span class='line'>        <span class="p">{</span><span class="nt">&quot;time&quot;</span><span class="p">:</span><span class="s2">&quot;2012-07-05 21:18:53&quot;</span><span class="p">,</span><span class="nt">&quot;context&quot;</span><span class="p">:</span><span class="s2">&quot;离开 [福建_厦门支公司] 发往 [北京运转中心_航空]&quot;</span><span class="p">},</span>
+</span><span class='line'>        <span class="p">{</span><span class="nt">&quot;time&quot;</span><span class="p">:</span><span class="s2">&quot;2012-07-05 20:07:27&quot;</span><span class="p">,</span><span class="nt">&quot;context&quot;</span><span class="p">:</span><span class="s2">&quot;已取件，到达 [福建_厦门支公司]&quot;</span><span class="p">}</span>
+</span><span class='line'>    <span class="p">]}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<blockquote><p>好了，今天就到这里，欢迎拍砖。查快递使用这个api还是不错的，网址是<a href="http://www.kuaidi100.com/" target="_blank">快递查询</a>。</p></blockquote>
+</div>
+
+</article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style addthis_32x32_style">
+	
+	
+	
+        <a class="addthis_button_sinaweibo"></a>
+        <a class="addthis_button_google_plusone_share">
+	<a class="addthis_button_gmail"></a>
+        <a class="addthis_button_facebook"></a>
+	<a class="addthis_button_twitter"></a>
+	<a class="addthis_button_email"></a>
+	<a class="addthis_counter addthis_pill_style"></a>
+	</div>
+  <script type="text/javascript">var addthis_config = {"data_track_addressbar":true};</script>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid=ra-5317eee85edc6eab"></script>
+</div>
+
+
+
+<section id="comment">
+    <h1 class="title">Comments</h1>
+    <!--<div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>-->
+    <div id="disqus_thread" aria-live="polite">
+
+<script type="text/javascript">
+      var disqus_shortname = 'a2bgeekblog';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://a2bgeek.me/blog/2014/04/14/kuai-di-100apishi-yong-jiang-jie.html/';
+        var disqus_url = 'http://a2bgeek.me/blog/2014/04/14/kuai-di-100apishi-yong-jiang-jie.html/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+</div>
+</section>
+
+</div>
+			</div>
+			<footer id="footer" class="inner">Copyright &copy; 2014
+
+    A2BGeek
+
+
+Power By <a href="http://octopress.org/">Octopress</a>
+</footer>
+		</div>
+	</div>
+</body>
+</html>
