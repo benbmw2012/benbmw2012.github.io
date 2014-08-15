@@ -4,7 +4,7 @@
   <title><![CDATA[A2BGeek's Blog]]></title>
   <link href="http://a2bgeek.me/atom.xml" rel="self"/>
   <link href="http://a2bgeek.me/"/>
-  <updated>2014-05-05T11:23:14+08:00</updated>
+  <updated>2014-08-15T11:35:55+08:00</updated>
   <id>http://a2bgeek.me/</id>
   <author>
     <name><![CDATA[A2BGeek]]></name>
@@ -12,6 +12,114 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[别摸我APP简介]]></title>
+    <link href="http://a2bgeek.me/blog/2014/08/15/bie-mo-wo-appjian-jie.html/"/>
+    <updated>2014-08-15T11:34:04+08:00</updated>
+    <id>http://a2bgeek.me/blog/2014/08/15/bie-mo-wo-appjian-jie</id>
+    <content type="html"><![CDATA[<p>在此介绍一下我开发的一款android app，名叫“Don&rsquo;t Touch Me”，这是一款安全类的应用，包括的功能有“贴身防盗”、“远程追踪”、“超级程序锁”、“私人记事本”。</p>
+
+<h2>初始界面和设置</h2>
+
+<p>app第一次执行，必须输入密码，这个密码用于开启上述四个功能，以及解除报警、解除锁定。</br>
+<img src="http://a2bgeekblog.qiniudn.com/image/png/dttm01.png" width="320" height="480"/>
+<img src="http://a2bgeekblog.qiniudn.com/image/png/dttm02.png" width="320" height="480"/>
+<img src="http://a2bgeekblog.qiniudn.com/image/png/dttm03.png" width="320" height="480"/>
+<img src="http://a2bgeekblog.qiniudn.com/image/png/dttm04.png" width="320" height="480"/></p>
+
+<h2>导航设计</h2>
+
+<p>界面中部为用户放置一本使用手册</br>
+<img src="http://a2bgeekblog.qiniudn.com/image/png/dttm05.png" width="320" height="480"/>
+<img src="http://a2bgeekblog.qiniudn.com/image/png/dttm06.png" width="320" height="480"/>
+<img src="http://a2bgeekblog.qiniudn.com/image/png/dttm07.png" width="320" height="480"/>
+<img src="http://a2bgeekblog.qiniudn.com/image/png/dttm08.png" width="320" height="480"/></p>
+
+<h2>贴身防盗</h2>
+
+<p>只要条件满足就会出发报警，想要停止报警必须机主输入第一次设置的密码</br>
+<img src="http://a2bgeekblog.qiniudn.com/image/png/dttm09.png" width="320" height="480"/>
+<img src="http://a2bgeekblog.qiniudn.com/image/png/dttm10.png" width="320" height="480"/></p>
+
+<h2>远程追踪</h2>
+
+<p>三步走：设置安全手机（最好是经常和自己在一起的人）、备份短信指令到安全手机、开启。如果手机不慎丢失，机主可用安全手机发送短信指令，包括定位指令（本机回复一条带url的短信给安全手机，url对应一个地图页面）和报警指令，尽量找回丢失的手机</br>
+<img src="http://a2bgeekblog.qiniudn.com/image/png/dttm11.png" width="320" height="480"/></p>
+
+<h2>超级程序锁</h2>
+
+<p>某app被锁定后，只有机主（知道密码的人）才能使用该app</br>
+<img src="http://a2bgeekblog.qiniudn.com/image/png/dttm12.png" width="320" height="480"/>
+<img src="http://a2bgeekblog.qiniudn.com/image/png/dttm13.png" width="320" height="480"/></p>
+
+<h2>私人记事本</h2>
+
+<p>机主可以记录的自己隐私哦，记录一些日常事物也不错</br>
+<img src="http://a2bgeekblog.qiniudn.com/image/png/dttm14.png" width="320" height="480"/>
+<img src="http://a2bgeekblog.qiniudn.com/image/png/dttm15.png" width="320" height="480"/>
+<img src="http://a2bgeekblog.qiniudn.com/image/png/dttm16.png" width="320" height="480"/></p>
+
+<h2>设置与关于</h2>
+
+<p><img src="http://a2bgeekblog.qiniudn.com/image/png/dttm17.png" width="320" height="480"/>
+<img src="http://a2bgeekblog.qiniudn.com/image/png/dttm18.png" width="320" height="480"/></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[盖世字帖APP简介]]></title>
+    <link href="http://a2bgeek.me/blog/2014/08/15/gai-shi-zi-tie-appjian-jie.html/"/>
+    <updated>2014-08-15T10:26:17+08:00</updated>
+    <id>http://a2bgeek.me/blog/2014/08/15/gai-shi-zi-tie-appjian-jie</id>
+    <content type="html"><![CDATA[<p>在此介绍一下我开发的一款android app，名叫“Don&rsquo;t Touch Me”，这是一款安全类的应用，包括的功能有“贴身防盗”、“远程追踪”、“超级程序锁”、“私人记事本”。</p>
+
+<h2>初始界面和设置</h2>
+
+<p>app第一次执行，必须输入密码，这个密码用于开启上述四个功能，以及解除报警、解除锁定。</br>
+<img src="http://a2bgeekblog.qiniudn.com/image/png/dttm01.png" width="320" height="480"/>
+<img src="http://a2bgeekblog.qiniudn.com/image/png/dttm02.png" width="320" height="480"/>
+<img src="http://a2bgeekblog.qiniudn.com/image/png/dttm03.png" width="320" height="480"/>
+<img src="http://a2bgeekblog.qiniudn.com/image/png/dttm04.png" width="320" height="480"/></p>
+
+<h2>导航设计</h2>
+
+<p>界面中部为用户放置一本使用手册</br>
+<img src="http://a2bgeekblog.qiniudn.com/image/png/dttm05.png" width="320" height="480"/>
+<img src="http://a2bgeekblog.qiniudn.com/image/png/dttm06.png" width="320" height="480"/>
+<img src="http://a2bgeekblog.qiniudn.com/image/png/dttm07.png" width="320" height="480"/>
+<img src="http://a2bgeekblog.qiniudn.com/image/png/dttm08.png" width="320" height="480"/></p>
+
+<h2>贴身防盗</h2>
+
+<p>只要条件满足就会出发报警，想要停止报警必须机主输入第一次设置的密码</br>
+<img src="http://a2bgeekblog.qiniudn.com/image/png/dttm09.png" width="320" height="480"/>
+<img src="http://a2bgeekblog.qiniudn.com/image/png/dttm10.png" width="320" height="480"/></p>
+
+<h2>远程追踪</h2>
+
+<p>三步走：设置安全手机（最好是经常和自己在一起的人）、备份短信指令到安全手机、开启。如果手机不慎丢失，机主可用安全手机发送短信指令，包括定位指令（本机回复一条带url的短信给安全手机，url对应一个地图页面）和报警指令，尽量找回丢失的手机</br>
+<img src="http://a2bgeekblog.qiniudn.com/image/png/dttm11.png" width="320" height="480"/></p>
+
+<h2>超级程序锁</h2>
+
+<p>某app被锁定后，只有机主（知道密码的人）才能使用该app</br>
+<img src="http://a2bgeekblog.qiniudn.com/image/png/dttm12.png" width="320" height="480"/>
+<img src="http://a2bgeekblog.qiniudn.com/image/png/dttm13.png" width="320" height="480"/></p>
+
+<h2>私人记事本</h2>
+
+<p>机主可以记录的自己隐私哦，记录一些日常事物也不错</br>
+<img src="http://a2bgeekblog.qiniudn.com/image/png/dttm14.png" width="320" height="480"/>
+<img src="http://a2bgeekblog.qiniudn.com/image/png/dttm15.png" width="320" height="480"/>
+<img src="http://a2bgeekblog.qiniudn.com/image/png/dttm16.png" width="320" height="480"/></p>
+
+<h2>设置与关于</h2>
+
+<p><img src="http://a2bgeekblog.qiniudn.com/image/png/dttm17.png" width="320" height="480"/>
+<img src="http://a2bgeekblog.qiniudn.com/image/png/dttm18.png" width="320" height="480"/></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[[转]创业三个月总结(节选)]]></title>
